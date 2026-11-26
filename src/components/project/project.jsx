@@ -1,55 +1,42 @@
-import { useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useReducedMotion } from 'motion/react'
 import TiltCard from '../animation/tilt-card'
+import thesisImage from '../images/thesis-logo.png'
 
-const projects = [
-  {
-    number: '01',
-    title: 'Creative Portfolio',
-    category: 'Web Development',
-    description:
-      'A responsive portfolio experience built with a clear visual system and smooth interactions.',
-  },
-  {
-    number: '02',
-    title: 'Modern Dashboard',
-    category: 'UI / UX',
-    description:
-      'A clean dashboard concept focused on data clarity, usability, and professional presentation.',
-  },
-  {
-    number: '03',
-    title: 'Mobile Experience',
-    category: 'React Native',
-    description:
-      'A mobile-first concept designed for speed, accessibility, and intuitive daily use.',
-  },
-]
+const project = {
+  title: 'PPGS Fixed Asset Management',
+  category: 'Thesis Project',
+  description:
+    'A web-based system for the LCCB and managing property and fixed-asset records.',
+  image: thesisImage,
+  liveUrl: 'https://ppgs-assetory.vercel.app/',
+  githubUrl: 'https://github.com/kur0gir1/PPGS-Asset-Management',
+}
+
+const projects = [project, null, null, null]
 
 function Project() {
-  const carouselRef = useRef(null)
-  const [activeIndex, setActiveIndex] = useState(0)
+  const [activeSlide, setActiveSlide] = useState(0)
+  const [isHovered, setIsHovered] = useState(false)
+  const [hasFocus, setHasFocus] = useState(false)
+  const reduceMotion = useReducedMotion()
 
-  const moveProject = (direction) => {
-    const carousel = carouselRef.current
-    if (!carousel) return
+  useEffect(() => {
+    if (reduceMotion || isHovered || hasFocus) return undefined
 
-    const nextIndex = Math.max(
-      0,
-      Math.min(projects.length - 1, activeIndex + direction),
-    )
+    const intervalId = window.setInterval(() => {
+      setActiveSlide((current) => (current + 1) % projects.length)
+    }, 5000)
 
-    carousel.scrollTo({
-      left: nextIndex * carousel.clientWidth,
-      behavior: 'smooth',
-    })
+    return () => window.clearInterval(intervalId)
+  }, [hasFocus, isHovered, reduceMotion])
+
+  const showPrevious = () => {
+    setActiveSlide((current) => (current - 1 + projects.length) % projects.length)
   }
 
-  const updateActiveProject = () => {
-    const carousel = carouselRef.current
-    if (!carousel || !carousel.clientWidth) return
-
-    const index = Math.round(carousel.scrollLeft / carousel.clientWidth)
-    setActiveIndex(Math.min(projects.length - 1, index))
+  const showNext = () => {
+    setActiveSlide((current) => (current + 1) % projects.length)
   }
 
   return (
@@ -79,68 +66,113 @@ function Project() {
         </div>
 
         <div
-          ref={carouselRef}
-          className="reveal-right mx-auto mt-8 flex w-full max-w-[860px] snap-x snap-mandatory overflow-x-auto scroll-smooth"
-          onScroll={updateActiveProject}
-          role="region"
-          aria-label="Featured projects"
-          tabIndex={0}
+          className="reveal-right mx-auto mt-8 w-full max-w-[550px] max-md:max-w-[400px]"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          onFocusCapture={() => setHasFocus(true)}
+          onBlurCapture={(event) => {
+            if (!event.currentTarget.contains(event.relatedTarget)) {
+              setHasFocus(false)
+            }
+          }}
         >
-          {projects.map((project) => (
-            <div
-              key={project.title}
-              className="w-full shrink-0 snap-center px-3 py-4"
-            >
-              <TiltCard className="h-full w-full">
-                <article className="group relative min-h-[460px] overflow-hidden rounded-[28px] border border-white/70 bg-white/55 p-6 shadow-[0_18px_44px_rgba(23,25,37,0.08)] backdrop-blur-xl transition-all duration-500 hover:border-[#697243]/25 hover:shadow-[0_24px_54px_rgba(23,25,37,0.14)]">
-                  <div className="relative h-[280px] overflow-hidden rounded-[20px] border border-[#171925]/8 bg-[linear-gradient(145deg,#d9ff72_0%,#84e8ce_55%,#8b7cff_120%)]">
-                    <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.38),transparent_55%,rgba(23,25,37,0.12))]" />
-                    <div className="absolute bottom-5 left-5 right-5 h-[72%] rounded-t-[16px] border border-white/60 bg-[#171925]/90 shadow-[0_18px_40px_rgba(23,25,37,0.18)] transition-transform duration-700 group-hover:-translate-y-2" />
-                    <div className="absolute bottom-8 left-8 right-8 h-[58%] rounded-t-[12px] bg-white/90 transition-transform duration-700 group-hover:-translate-y-3" />
-                    <span className="absolute right-4 top-4 text-[11px] font-bold tracking-[0.16em] text-[#171925]/55">
-                      {project.number}
-                    </span>
-                  </div>
-
-                  <p className="mt-5 text-[11px] font-bold uppercase tracking-[0.18em] text-[#697243]">
-                    {project.category}
-                  </p>
-                  <h3 className="mt-2 text-[21px] font-semibold tracking-[-0.02em] text-[#171925]">
-                    {project.title}
-                  </h3>
-                  <p className="mt-2 text-[14px] leading-6 text-[#62665f]">
-                    {project.description}
-                  </p>
-                </article>
-              </TiltCard>
-            </div>
-          ))}
-        </div>
-
-        <div className="reveal-right mx-auto flex w-full max-w-[836px] items-center justify-between px-3">
-          <p
-            className="text-[12px] font-bold tracking-[0.16em] text-[#62665f]"
-            aria-live="polite"
+          <div
+            aria-label="Featured projects"
+            aria-roledescription="carousel"
+            className="overflow-hidden"
           >
-            {String(activeIndex + 1).padStart(2, '0')} /{' '}
-            {String(projects.length).padStart(2, '0')}
-          </p>
-          <div className="flex items-center gap-3">
+            <div
+              className={`flex ${reduceMotion ? '' : 'transition-transform duration-700 ease-in-out'}`}
+              style={{ transform: `translateX(-${activeSlide * 100}%)` }}
+            >
+              {projects.map((item, index) => (
+                <div
+                  key={index}
+                  role="group"
+                  aria-roledescription="slide"
+                  aria-label={`Slide ${index + 1} of ${projects.length}`}
+                  className="w-full shrink-0 px-3 py-4"
+                >
+                  <TiltCard className="h-full w-full">
+                    {item ? (
+                      <article className="group relative flex aspect-square flex-col overflow-hidden rounded-[24px] border border-[#697243]/10 bg-[#f8f7f2] p-5 shadow-[0_18px_44px_rgba(23,25,37,0.08)] backdrop-blur-xl transition-all duration-500 hover:border-[#697243]/25 hover:shadow-[0_24px_54px_rgba(23,25,37,0.14)]">
+                        <div className="mb-5 flex min-h-0 flex-1 items-center justify-center overflow-hidden rounded-[16px] bg-white/70 p-4">
+                          <img
+                            src={item.image}
+                            alt="Assetory asset management logo"
+                            className="max-h-full max-w-full object-contain"
+                          />
+                        </div>
+                        <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#697243]">
+                          {item.category}
+                        </p>
+                        <h3 className="mt-2 text-[21px] font-semibold tracking-[-0.02em] text-[#171925]">
+                          {item.title}
+                        </h3>
+                        <p className="mt-2 text-[14px] leading-6 text-[#62665f]">
+                          {item.description}
+                        </p>
+                        <div className="mt-auto flex flex-wrap gap-3 pt-5">
+                          <a
+                            href={item.liveUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="inline-flex items-center justify-center rounded-full bg-[#171925] px-5 py-3 text-[13px] font-semibold text-white transition-colors hover:bg-[#262626]"
+                          >
+                            Visit Project
+                          </a>
+                          <a
+                            href={item.githubUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="inline-flex items-center justify-center rounded-full border border-[#171925]/15 bg-white/70 px-5 py-3 text-[13px] font-semibold text-[#171925] transition-colors hover:border-[#697243]/40 hover:bg-white"
+                          >
+                            Visit GitHub
+                          </a>
+                        </div>
+                      </article>
+                    ) : (
+                      <article
+                        aria-label="Empty project card"
+                        className="aspect-square rounded-[24px] border border-[#697243]/10 bg-[#f8f7f2] shadow-[0_18px_44px_rgba(23,25,37,0.08)]"
+                      />
+                    )}
+                  </TiltCard>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex items-center justify-center gap-4">
             <button
               type="button"
               aria-label="Previous project"
-              disabled={activeIndex === 0}
-              onClick={() => moveProject(-1)}
-              className="grid size-11 place-items-center rounded-full border border-[#171925]/15 bg-white/70 text-[20px] text-[#171925] shadow-[0_8px_24px_rgba(23,25,37,0.06)] transition-all hover:-translate-y-0.5 hover:border-[#697243]/40 hover:bg-white disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0"
+              onClick={showPrevious}
+              className="grid size-10 place-items-center rounded-full border border-[#171925]/15 bg-white/70 text-[#171925] transition-colors hover:bg-white"
             >
               <span aria-hidden="true">←</span>
             </button>
+            <div className="flex items-center gap-2">
+              {projects.map((_, index) => (
+                <button
+                  key={index}
+                  type="button"
+                  aria-label={`Go to project slide ${index + 1}`}
+                  aria-current={activeSlide === index ? 'true' : undefined}
+                  onClick={() => setActiveSlide(index)}
+                  className={`h-2.5 rounded-full transition-all ${
+                    activeSlide === index
+                      ? 'w-6 bg-[#697243]'
+                      : 'w-2.5 bg-[#697243]/30 hover:bg-[#697243]/55'
+                  }`}
+                />
+              ))}
+            </div>
             <button
               type="button"
               aria-label="Next project"
-              disabled={activeIndex === projects.length - 1}
-              onClick={() => moveProject(1)}
-              className="grid size-11 place-items-center rounded-full border border-[#171925]/15 bg-white/70 text-[20px] text-[#171925] shadow-[0_8px_24px_rgba(23,25,37,0.06)] transition-all hover:-translate-y-0.5 hover:border-[#697243]/40 hover:bg-white disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0"
+              onClick={showNext}
+              className="grid size-10 place-items-center rounded-full border border-[#171925]/15 bg-white/70 text-[#171925] transition-colors hover:bg-white"
             >
               <span aria-hidden="true">→</span>
             </button>
