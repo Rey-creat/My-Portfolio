@@ -9,53 +9,6 @@ body {
   background: #f4f3ed;
 }
 
-.ambient-grid {
-  background-image:
-    linear-gradient(rgba(23, 25, 37, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(23, 25, 37, 0.035) 1px, transparent 1px);
-  background-size: 64px 64px;
-  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.72), transparent 92%);
-}
-
-@keyframes ambient-drift-one {
-  0%, 100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(70px, 40px, 0) scale(1.08);
-  }
-}
-
-@keyframes ambient-drift-two {
-  0%, 100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(-80px, 55px, 0) scale(1.12);
-  }
-}
-
-@keyframes ambient-drift-three {
-  0%, 100% {
-    transform: translate3d(-50px, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(50px, -45px, 0) scale(1.06);
-  }
-}
-
-.ambient-glow-one {
-  animation: ambient-drift-one 14s ease-in-out infinite;
-}
-
-.ambient-glow-two {
-  animation: ambient-drift-two 18s ease-in-out infinite;
-}
-
-.ambient-glow-three {
-  animation: ambient-drift-three 16s ease-in-out infinite;
-}
-
 @keyframes fade-up {
   from {
     opacity: 0;

@@ -3,9 +3,10 @@ import { useEffect, useState } from 'react'
 const navItems = [
   { label: 'Home', href: '#home' },
   { label: 'About', href: '#about' },
+  { label: 'Education', href: '#education' },
   { label: 'Services', href: '#services' },
   { label: 'Project', href: '#project' },
-  { label: 'Contacts', href: '#contacts' },
+  { label: 'Contact', href: '#contacts' },
 ]
 
 function Header() {
