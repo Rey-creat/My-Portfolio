@@ -1,3 +1,5 @@
+import TiltCard from '../animation/tilt-card'
+
 const education = [
   {
     level: 'Elementary',
@@ -68,24 +70,26 @@ function Education() {
                       : 'md:left-0'
                   }`}
                 />
-                <article className="group relative min-h-[148px] overflow-hidden rounded-[24px] border border-white/85 bg-gradient-to-br from-white/95 via-white/80 to-[#eef0e5]/75 p-5 text-left shadow-[0_16px_40px_rgba(23,25,37,0.07)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-[#697243]/35 hover:shadow-[0_22px_48px_rgba(23,25,37,0.12)] md:p-6">
-                  <span
-                    aria-hidden="true"
-                    className="pointer-events-none absolute -right-7 -top-8 size-24 rounded-full bg-[#697243]/[0.07] transition-transform duration-500 group-hover:scale-125"
-                  />
-                  <div className="relative flex items-center justify-between gap-4">
-                    <p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-[#697243]">
-                      <span className="size-1.5 rounded-full bg-[#697243]" />
-                      {item.level}
-                    </p>
-                    <span className="grid size-9 shrink-0 place-items-center rounded-xl border border-[#697243]/15 bg-white/75 text-[11px] font-bold tracking-[0.1em] text-[#697243] shadow-[0_5px_14px_rgba(23,25,37,0.05)]">
-                      {String(index + 1).padStart(2, '0')}
-                    </span>
-                  </div>
-                  <h3 className="relative mt-4 text-[18px] font-semibold leading-snug tracking-[-0.02em] text-[#171925]">
-                    {item.school}
-                  </h3>
-                </article>
+                <TiltCard>
+                  <article className="group relative min-h-[148px] overflow-hidden rounded-[24px] border border-white/85 bg-gradient-to-br from-white/95 via-white/80 to-[#eef0e5]/75 p-5 text-left shadow-[0_16px_40px_rgba(23,25,37,0.07)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-[#697243]/35 hover:shadow-[0_22px_48px_rgba(23,25,37,0.12)] md:p-6">
+                    <span
+                      aria-hidden="true"
+                      className="pointer-events-none absolute -right-7 -top-8 size-24 rounded-full bg-[#697243]/[0.07] transition-transform duration-500 group-hover:scale-125"
+                    />
+                    <div className="relative flex items-center justify-between gap-4">
+                      <p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-[#697243]">
+                        <span className="size-1.5 rounded-full bg-[#697243]" />
+                        {item.level}
+                      </p>
+                      <span className="grid size-9 shrink-0 place-items-center rounded-xl border border-[#697243]/15 bg-white/75 text-[11px] font-bold tracking-[0.1em] text-[#697243] shadow-[0_5px_14px_rgba(23,25,37,0.05)]">
+                        {String(index + 1).padStart(2, '0')}
+                      </span>
+                    </div>
+                    <h3 className="relative mt-4 text-[18px] font-semibold leading-snug tracking-[-0.02em] text-[#171925]">
+                      {item.school}
+                    </h3>
+                  </article>
+                </TiltCard>
               </li>
             )
           })}

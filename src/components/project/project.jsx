@@ -1,3 +1,4 @@
+import { useRef, useState } from 'react'
 import TiltCard from '../animation/tilt-card'
 
 const projects = [
@@ -25,6 +26,32 @@ const projects = [
 ]
 
 function Project() {
+  const carouselRef = useRef(null)
+  const [activeIndex, setActiveIndex] = useState(0)
+
+  const moveProject = (direction) => {
+    const carousel = carouselRef.current
+    if (!carousel) return
+
+    const nextIndex = Math.max(
+      0,
+      Math.min(projects.length - 1, activeIndex + direction),
+    )
+
+    carousel.scrollTo({
+      left: nextIndex * carousel.clientWidth,
+      behavior: 'smooth',
+    })
+  }
+
+  const updateActiveProject = () => {
+    const carousel = carouselRef.current
+    if (!carousel || !carousel.clientWidth) return
+
+    const index = Math.round(carousel.scrollLeft / carousel.clientWidth)
+    setActiveIndex(Math.min(projects.length - 1, index))
+  }
+
   return (
     <section
       id="project"
@@ -51,34 +78,73 @@ function Project() {
           </p>
         </div>
 
-        <div className="reveal-right grid grid-cols-3 gap-5 max-lg:grid-cols-2 max-md:grid-cols-1">
-          {projects.map((project, index) => (
-            <TiltCard
+        <div
+          ref={carouselRef}
+          className="reveal-right mx-auto mt-8 flex w-full max-w-[860px] snap-x snap-mandatory overflow-x-auto scroll-smooth"
+          onScroll={updateActiveProject}
+          role="region"
+          aria-label="Featured projects"
+          tabIndex={0}
+        >
+          {projects.map((project) => (
+            <div
               key={project.title}
-              className={index === 0 ? 'max-lg:col-span-2 max-md:col-span-1' : ''}
+              className="w-full shrink-0 snap-center px-3 py-4"
             >
-              <article className="stagger-item group relative min-h-[360px] overflow-hidden rounded-[28px] border border-white/70 bg-white/55 p-6 shadow-[0_18px_44px_rgba(23,25,37,0.08)] backdrop-blur-xl transition-all duration-500 hover:border-[#697243]/25 hover:shadow-[0_24px_54px_rgba(23,25,37,0.14)]">
-                <div className="relative h-[210px] overflow-hidden rounded-[20px] border border-[#171925]/8 bg-[linear-gradient(145deg,#d9ff72_0%,#84e8ce_55%,#8b7cff_120%)]">
-                  <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.38),transparent_55%,rgba(23,25,37,0.12))]" />
-                  <div className="absolute bottom-5 left-5 right-5 h-[72%] rounded-t-[16px] border border-white/60 bg-[#171925]/90 shadow-[0_18px_40px_rgba(23,25,37,0.18)] transition-transform duration-700 group-hover:-translate-y-2" />
-                  <div className="absolute bottom-8 left-8 right-8 h-[58%] rounded-t-[12px] bg-white/90 transition-transform duration-700 group-hover:-translate-y-3" />
-                  <span className="absolute right-4 top-4 text-[11px] font-bold tracking-[0.16em] text-[#171925]/55">
-                    {project.number}
-                  </span>
-                </div>
+              <TiltCard className="h-full w-full">
+                <article className="group relative min-h-[460px] overflow-hidden rounded-[28px] border border-white/70 bg-white/55 p-6 shadow-[0_18px_44px_rgba(23,25,37,0.08)] backdrop-blur-xl transition-all duration-500 hover:border-[#697243]/25 hover:shadow-[0_24px_54px_rgba(23,25,37,0.14)]">
+                  <div className="relative h-[280px] overflow-hidden rounded-[20px] border border-[#171925]/8 bg-[linear-gradient(145deg,#d9ff72_0%,#84e8ce_55%,#8b7cff_120%)]">
+                    <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.38),transparent_55%,rgba(23,25,37,0.12))]" />
+                    <div className="absolute bottom-5 left-5 right-5 h-[72%] rounded-t-[16px] border border-white/60 bg-[#171925]/90 shadow-[0_18px_40px_rgba(23,25,37,0.18)] transition-transform duration-700 group-hover:-translate-y-2" />
+                    <div className="absolute bottom-8 left-8 right-8 h-[58%] rounded-t-[12px] bg-white/90 transition-transform duration-700 group-hover:-translate-y-3" />
+                    <span className="absolute right-4 top-4 text-[11px] font-bold tracking-[0.16em] text-[#171925]/55">
+                      {project.number}
+                    </span>
+                  </div>
 
-                <p className="mt-5 text-[11px] font-bold uppercase tracking-[0.18em] text-[#697243]">
-                  {project.category}
-                </p>
-                <h3 className="mt-2 text-[21px] font-semibold tracking-[-0.02em] text-[#171925]">
-                  {project.title}
-                </h3>
-                <p className="mt-2 text-[14px] leading-6 text-[#62665f]">
-                  {project.description}
-                </p>
-              </article>
-            </TiltCard>
+                  <p className="mt-5 text-[11px] font-bold uppercase tracking-[0.18em] text-[#697243]">
+                    {project.category}
+                  </p>
+                  <h3 className="mt-2 text-[21px] font-semibold tracking-[-0.02em] text-[#171925]">
+                    {project.title}
+                  </h3>
+                  <p className="mt-2 text-[14px] leading-6 text-[#62665f]">
+                    {project.description}
+                  </p>
+                </article>
+              </TiltCard>
+            </div>
           ))}
+        </div>
+
+        <div className="reveal-right mx-auto flex w-full max-w-[836px] items-center justify-between px-3">
+          <p
+            className="text-[12px] font-bold tracking-[0.16em] text-[#62665f]"
+            aria-live="polite"
+          >
+            {String(activeIndex + 1).padStart(2, '0')} /{' '}
+            {String(projects.length).padStart(2, '0')}
+          </p>
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              aria-label="Previous project"
+              disabled={activeIndex === 0}
+              onClick={() => moveProject(-1)}
+              className="grid size-11 place-items-center rounded-full border border-[#171925]/15 bg-white/70 text-[20px] text-[#171925] shadow-[0_8px_24px_rgba(23,25,37,0.06)] transition-all hover:-translate-y-0.5 hover:border-[#697243]/40 hover:bg-white disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0"
+            >
+              <span aria-hidden="true">←</span>
+            </button>
+            <button
+              type="button"
+              aria-label="Next project"
+              disabled={activeIndex === projects.length - 1}
+              onClick={() => moveProject(1)}
+              className="grid size-11 place-items-center rounded-full border border-[#171925]/15 bg-white/70 text-[20px] text-[#171925] shadow-[0_8px_24px_rgba(23,25,37,0.06)] transition-all hover:-translate-y-0.5 hover:border-[#697243]/40 hover:bg-white disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0"
+            >
+              <span aria-hidden="true">→</span>
+            </button>
+          </div>
         </div>
       </div>
     </section>

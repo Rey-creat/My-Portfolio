@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
+import logoImage from '../images/logo.png'
 
 const navItems = [
-  { label: 'Home', href: '#home' },
-  { label: 'About', href: '#about' },
-  { label: 'Education', href: '#education' },
-  { label: 'Services', href: '#services' },
-  { label: 'Project', href: '#project' },
-  { label: 'Contact', href: '#contacts' },
+  { label: 'Home', href: 'home' },
+  { label: 'About', href: 'about' },
+  { label: 'Education', href: 'education' },
+  { label: 'Services', href: 'services' },
+  { label: 'Project', href: 'project' },
+  { label: 'Contact', href: 'contacts' },
 ]
 
 function Header() {
@@ -81,14 +82,16 @@ function Header() {
       />
 
       <div className="relative mx-auto grid h-full w-full max-w-[1440px] grid-cols-[1fr_auto_1fr] items-center gap-12 px-12 max-lg:gap-7 max-lg:px-6 max-md:gap-0 max-md:px-4 max-md:grid-cols-[1fr_auto]">
-        <a
-          className="group grid size-[44px] justify-self-start place-items-center rounded-full border border-white/12 bg-[linear-gradient(145deg,#d9ff72,#84e8ce)] text-[21px] font-semibold leading-none text-[#171a20] no-underline shadow-[0_10px_28px_rgba(217,255,114,0.14)] transition-all duration-300 hover:-translate-y-1 hover:rotate-[-6deg] hover:shadow-[0_16px_34px_rgba(217,255,114,0.24)] active:scale-95 max-md:size-10"
-          href="#home"
-          aria-label="Go to home"
-          onClick={() => selectLink('#home')}
+        <div
+          className="relative -ml-7 grid size-[55px] justify-self-start place-items-center overflow-hidden rounded-full border-2 border-[#d9ff72]/85 bg-[#11131a] no-underline shadow-[0_0_18px_rgba(217,255,114,0.24)] max-md:-ml-1 max-md:size-12"
+          aria-hidden="true"
         >
-          R
-        </a>
+          <img
+            src={logoImage}
+            alt=""
+            className="absolute left-1/2 top-1/2 size-[80px] max-w-none -translate-x-1/2 -translate-y-1/2 max-md:size-[92px]"
+          />
+        </div>
 
         <nav
           className={`flex items-center gap-2 rounded-full border border-white/8 bg-white/[0.035] p-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] backdrop-blur-md max-md:absolute max-md:left-0 max-md:right-0 max-md:top-[62px] max-md:grid max-md:gap-1 max-md:rounded-2xl max-md:border-white/10 max-md:bg-[#11131a]/98 max-md:p-2.5 max-md:shadow-[0_18px_50px_rgba(15,23,42,0.32)] max-md:backdrop-blur-2xl max-md:transition-all max-md:duration-300 ${
