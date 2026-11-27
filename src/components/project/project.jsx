@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react'
 import { useReducedMotion } from 'motion/react'
 import TiltCard from '../animation/tilt-card'
 import thesisImage from '../images/thesis-logo.png'
+import agristackImage from '../images/agristack.png'
+import figmaImage from '../images/figma-project1.png'
 
 const project = {
-  title: 'PPGS Fixed Asset Management',
-  category: 'Thesis Project',
+  title: 'PPGS Fixed Asset Management System',
+  category: 'Collaborative Work',
   description:
     'A web-based system for the LCCB and managing property and fixed-asset records.',
   image: thesisImage,
@@ -13,7 +15,26 @@ const project = {
   githubUrl: 'https://github.com/kur0gir1/PPGS-Asset-Management',
 }
 
-const projects = [project, null, null, null]
+const agristackProject = {
+  title: 'Agriculture Web Platform',
+  category: 'Collaborative Work',
+  description: 'An agriculture equipment and shop web platform.',
+  image: agristackImage,
+  liveUrl: 'https://agristack.xo.je/',
+  githubUrl: 'https://github.com/Rey-creat/agristack',
+}
+
+const figmaProject = {
+  title: 'Figma Prototype',
+  category: 'Solo Work',
+  description: 'An interactive prototype designed in Figma.',
+  image: figmaImage,
+  liveUrl:
+    'https://www.figma.com/proto/JzryVyVXmrZFarcMnEJZko/Act-1---2---3?node-id=11-18&starting-point-node-id=1%3A2&scaling=scale-down&content-scaling=fixed&t=zlkdJ1TnfnlpSnMA-1',
+  liveLinkLabel: 'View Prototype',
+}
+
+const projects = [project, agristackProject, figmaProject]
 
 function Project() {
   const [activeSlide, setActiveSlide] = useState(0)
@@ -99,7 +120,7 @@ function Project() {
                         <div className="mb-5 flex min-h-0 flex-1 items-center justify-center overflow-hidden rounded-[16px] bg-white/70 p-4">
                           <img
                             src={item.image}
-                            alt="Assetory asset management logo"
+                            alt={`${item.title} preview`}
                             className="max-h-full max-w-full object-contain"
                           />
                         </div>
@@ -119,16 +140,18 @@ function Project() {
                             rel="noreferrer"
                             className="inline-flex items-center justify-center rounded-full bg-[#171925] px-5 py-3 text-[13px] font-semibold text-white transition-colors hover:bg-[#262626]"
                           >
-                            Visit Project
+                            {item.liveLinkLabel || 'Visit Project'}
                           </a>
-                          <a
-                            href={item.githubUrl}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="inline-flex items-center justify-center rounded-full border border-[#171925]/15 bg-white/70 px-5 py-3 text-[13px] font-semibold text-[#171925] transition-colors hover:border-[#697243]/40 hover:bg-white"
-                          >
-                            Visit GitHub
-                          </a>
+                          {item.githubUrl && (
+                            <a
+                              href={item.githubUrl}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="inline-flex items-center justify-center rounded-full border border-[#171925]/15 bg-white/70 px-5 py-3 text-[13px] font-semibold text-[#171925] transition-colors hover:border-[#697243]/40 hover:bg-white"
+                            >
+                              Visit GitHub
+                            </a>
+                          )}
                         </div>
                       </article>
                     ) : (

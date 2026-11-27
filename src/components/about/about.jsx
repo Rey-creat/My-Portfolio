@@ -20,7 +20,7 @@ function About() {
             <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#62665f]">
               Current Role
             </p>
-            <p className="mt-1 text-[20px] font-semibold text-[#171925]">OJT Student</p>
+            <p className="mt-1 text-[20px] font-semibold text-[#171925]">Student</p>
           </div>
         </TiltCard>
 
@@ -38,12 +38,12 @@ function About() {
           </h2>
 
           <p className="mt-7 text-justify text-[clamp(16px,1.25vw,18px)] leading-[1.9] text-[#62665f]">
-            I&apos;m an OJT student preparing this portfolio for my future professional career. It is a work in progress, and I am continuously adding new pieces and refining existing ones. The portfolio is intended to showcase my skills, creativity, and growth as a designer and developer.
+            I&apos;m a student preparing this portfolio for my future professional career. It is a work in progress, and I am continuously adding new pieces and refining existing ones. The portfolio is intended to showcase my skills, creativity, and growth as a designer and developer.
             and the development behind each piece.
           </p>
 
           <p className="mt-5 text-justify text-[clamp(16px,1.25vw,18px)] leading-[1.9] text-[#62665f]">
-            As I add original work, I want each entry to show more than a polished
+            As I add collaborative work, I want each entry to show more than a polished
             result: the studies, choices, and revisions that help an idea take shape.
           </p>
 
@@ -59,10 +59,10 @@ function About() {
             </a>
 
             <a
-              href="#process"
-              className="inline-flex min-h-[46px] items-center rounded-full border border-[#171925]/15 px-5 text-[13px] font-semibold text-[#171925] no-underline transition-all duration-200 hover:-translate-y-0.5 hover:border-[#171925]/30 hover:bg-white/70 active:scale-95"
+              href="#project"
+              className="inline-flex min-h-[46px] items-center rounded-full border border-[#171925]/15 px-5 text-[13px] font-semibold text-[#171925] no-underline transition-all duration-200 hover:-translate-y-0.5 hover:border-[#697243] hover:bg-white/70 active:scale-95"
             >
-              Portfolio Focus
+              Explore My Work
             </a>
           </div>
         </div>

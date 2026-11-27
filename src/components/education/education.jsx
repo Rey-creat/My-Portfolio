@@ -4,18 +4,22 @@ const education = [
   {
     level: 'Elementary',
     school: 'Don A.R Montelibano Elementary School',
+    years: 6,
   },
   {
     level: 'High School',
     school: 'Murcia National High School',
+    years: 4,
   },
   {
     level: 'Senior High School',
     school: 'Murcia National High School',
+    years: 3,
   },
   {
     level: 'College',
     school: 'La Consolacion College Bacolod',
+    years: 5,
   },
 ]
 
@@ -88,6 +92,9 @@ function Education() {
                     <h3 className="relative mt-4 text-[18px] font-semibold leading-snug tracking-[-0.02em] text-[#171925]">
                       {item.school}
                     </h3>
+                    <p className="relative mt-2 text-[13px] font-medium text-[#697243]">
+                      {item.years} years
+                    </p>
                   </article>
                 </TiltCard>
               </li>
